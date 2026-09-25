@@ -115,7 +115,7 @@ h2 { font-size: 18px; margin: 36px 0 14px; }
 .scrub { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: rgba(255,255,255,.15); cursor: pointer; }
 .scrub-fill { height: 100%; width: 0; background: #fff; }
 
-.unmute { position: absolute; z-index: 6; top: calc(64px + env(safe-area-inset-top)); left: 50%; transform: translateX(-50%);
+.unmute { position: absolute; z-index: 6; top: calc(150px + env(safe-area-inset-top)); left: 50%; transform: translateX(-50%);
   border: 0; border-radius: 999px; padding: 9px 16px; background: #fff; color: #000; font-weight: 700; font-size: 14px; box-shadow: 0 6px 20px rgba(0,0,0,.4); }
 .desk-nav { position: absolute; right: 24px; top: 50%; transform: translateY(-50%); display: none; flex-direction: column; gap: 12px; z-index: 5; }
 @media (min-width: 900px) { .desk-nav { display: flex; } }
