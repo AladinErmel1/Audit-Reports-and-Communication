@@ -269,7 +269,7 @@ def caption_chunks(text: str, max_words: int = 7) -> list[str]:
 
 def caption_image(text: str) -> Image.Image:
     f = font("semibold", 34)
-    lines = wrap(text, f, CONTENT_W - 30)[:2]
+    lines = wrap(text, f, CONTENT_W - 40)[:2]
     lh = 44
     w = int(max(f.getlength(l) for l in lines)) + 36
     img = Image.new("RGBA", (w, lh * len(lines) + 22), (0, 0, 0, 0))
@@ -466,7 +466,8 @@ def render_short(short: Short, report_label: str, out_mp4: Path, poster: Path, n
                     frame.alpha_composite(faded(img, scale_p * exit_p, fade_cache), (stat["x"], int(stat["y"] + (1 - scale_p) * 30)))
             for (a, b, img) in caps:
                 if a <= t < b:
-                    frame.alpha_composite(img, ((W - img.width) // 2, CAPTION_TOP))
+                    # centred on the content column, clear of the player's action rail on the right
+                    frame.alpha_composite(img, (MARGIN_L + (CONTENT_W - img.width) // 2, CAPTION_TOP))
                     break
             frame.alpha_composite(watermark, (MARGIN_L, H - 60))
             if not poster_saved and idx == 0 and lt >= 1.2:

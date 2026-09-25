@@ -173,6 +173,13 @@
         if (feedState.autoNext) scrollToSlide(i + 1);
         else { video.currentTime = 0; video.play().catch(() => {}); }
       });
+      video.addEventListener("error", () => {
+        if (!video.src || $(".video-error", node)) return;
+        const box = document.createElement("div");
+        box.className = "video-error";
+        box.innerHTML = `<div>This browser can't play the video here.</div><a class="btn primary" style="margin:0" href="${esc(short.video || "")}" download>Download MP4</a>`;
+        $(".frame", node).insertBefore(box, $(".overlay", node));
+      });
       $(".scrub", node).addEventListener("click", (e) => {
         const r = e.currentTarget.getBoundingClientRect();
         if (video.duration) video.currentTime = ((e.clientX - r.left) / r.width) * video.duration;
