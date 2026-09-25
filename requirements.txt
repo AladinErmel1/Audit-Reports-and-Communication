@@ -1,0 +1,13 @@
+fastapi>=0.110
+uvicorn[standard]>=0.29
+python-multipart>=0.0.9
+pymupdf>=1.24
+pillow>=10.3
+pydantic>=2.6
+# Optional: Claude-written scripts (set ANTHROPIC_API_KEY)
+anthropic>=0.60
+# Optional: nicer voices. edge-tts needs internet; piper-tts runs offline with a downloaded voice.
+edge-tts>=6.1
+# piper-tts>=1.3
+pytest>=8
+httpx>=0.27

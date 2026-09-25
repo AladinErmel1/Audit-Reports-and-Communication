@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#05070f">
+  <title>Audit Shorts</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23ff4d5e'/><path d='M12 9l11 7-11 7z' fill='white'/></svg>">
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+  <!-- Library: upload + list of reports -->
+  <main id="library" class="library" hidden>
+    <header class="lib-header">
+      <div class="brand"><span class="logo">▶</span> Audit Shorts</div>
+      <p class="tagline">Turn audit reports into short videos. Your readers can watch the findings instead of reading the whole report.</p>
+    </header>
+
+    <label id="dropzone" class="dropzone" tabindex="0">
+      <input id="file" type="file" accept="application/pdf,.pdf" hidden>
+      <div class="dz-icon">⬆</div>
+      <div class="dz-title">Drop an audit report here</div>
+      <div class="dz-sub">PDF · we split it into one short per finding, each with risk, recommendation and management response</div>
+      <span class="btn primary">Choose PDF</span>
+    </label>
+    <p id="upload-error" class="error" hidden></p>
+
+    <section>
+      <h2>Your reports</h2>
+      <div id="reports" class="reports"></div>
+      <p id="empty" class="muted" hidden>No reports yet. Upload one above.</p>
+    </section>
+  </main>
+
+  <!-- Feed: vertical short-video player -->
+  <div id="player" class="player" hidden>
+    <div class="topbar">
+      <button id="back" class="icon-btn" aria-label="Back to reports">←</button>
+      <div class="topbar-title"><span id="feed-title"></span><span id="feed-count" class="muted"></span></div>
+      <button id="autoplay" class="chip-btn on" aria-pressed="true" title="Play the next short automatically">Auto-next</button>
+    </div>
+    <div id="feed" class="feed" tabindex="0"></div>
+    <button id="unmute" class="unmute" hidden>🔇 Tap for sound</button>
+    <div class="desk-nav">
+      <button id="prev" class="icon-btn" aria-label="Previous short">↑</button>
+      <button id="next" class="icon-btn" aria-label="Next short">↓</button>
+    </div>
+  </div>
+
+  <!-- Details bottom sheet -->
+  <div id="sheet" class="sheet" hidden>
+    <div class="sheet-backdrop" data-close></div>
+    <div class="sheet-panel" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+      <div class="sheet-handle"></div>
+      <div class="sheet-head">
+        <h3 id="sheet-title"></h3>
+        <button class="icon-btn" data-close aria-label="Close">✕</button>
+      </div>
+      <div id="sheet-body" class="sheet-body"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <template id="slide-tpl">
+    <section class="slide">
+      <div class="frame">
+        <video playsinline preload="metadata"></video>
+        <div class="pending"><div class="spinner"></div><div class="pending-text">Rendering this short…</div></div>
+        <div class="tap-icon" aria-hidden="true">❚❚</div>
+        <div class="overlay">
+          <div class="meta">
+            <span class="risk"></span>
+            <h2 class="title"></h2>
+            <div class="sub muted"></div>
+          </div>
+          <div class="rail">
+            <button class="rail-btn ack" aria-pressed="false"><span class="ic">✓</span><span class="lbl">Got it</span></button>
+            <button class="rail-btn details"><span class="ic">≡</span><span class="lbl">Details</span></button>
+            <button class="rail-btn share"><span class="ic">↗</span><span class="lbl">Share</span></button>
+            <a class="rail-btn download" download><span class="ic">⤓</span><span class="lbl">Save</span></a>
+            <button class="rail-btn mute"><span class="ic">🔊</span><span class="lbl">Sound</span></button>
+          </div>
+        </div>
+        <div class="scrub"><div class="scrub-fill"></div></div>
+      </div>
+    </section>
+  </template>
+
+  <script src="/app.js"></script>
+</body>
+</html>
