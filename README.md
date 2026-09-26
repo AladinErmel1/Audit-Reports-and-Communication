@@ -34,6 +34,18 @@ sample report (9 findings, 11 shorts) renders in about 3 minutes on a 4-core mac
 
 ## Configuration (environment variables)
 
+### Adding your Claude API key (without putting it on GitHub)
+
+1. In the project folder, copy `.env.example` to `.env`.
+2. Open `.env` and paste your key after `ANTHROPIC_API_KEY=`.
+3. Restart the server. http://localhost:8000/api/health now shows `"claude_scripts": true`.
+
+`.env` is listed in `.gitignore`, so git never commits or pushes it. Run `git status` and it won't appear.
+On a hosting platform (Railway, Render, Azure and so on), don't upload a `.env` file. Add `ANTHROPIC_API_KEY` in the
+platform's *environment variables / secrets* settings instead; the app reads it from there.
+If a key is ever committed by mistake, revoke it in the Claude Console and create a new one.
+Removing the file in a later commit is not enough, because it stays in the git history.
+
 | Variable | Effect |
 |---|---|
 | `ANTHROPIC_API_KEY` | Claude condenses each finding into plain-language copy (`app/llm.py`, model `claude-opus-5`, override with `CLAUDE_MODEL`). Without it a rule-based extractive summariser is used. If the Claude call fails, the app falls back to the rules. |

@@ -9,7 +9,11 @@ from fastapi import FastAPI, HTTPException, UploadFile
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
-from . import pipeline
+from .settings import load_env
+
+load_env()  # before importing modules that read settings
+
+from . import llm, pipeline  # noqa: E402
 
 logging.basicConfig(level=logging.INFO)
 WEB_DIR = Path(__file__).resolve().parent.parent / "web"
@@ -66,7 +70,8 @@ def media(report_id: str, name: str) -> FileResponse:
 @app.get("/api/health")
 def health() -> dict:
     return {"ok": True, "ffmpeg": bool(shutil.which("ffmpeg")),
-            "espeak": bool(shutil.which("espeak-ng") or shutil.which("espeak"))}
+            "espeak": bool(shutil.which("espeak-ng") or shutil.which("espeak")),
+            "claude_scripts": llm.enabled()}  # whether a key is configured; the key itself is never exposed
 
 
 def _safe_id(report_id: str) -> str:
