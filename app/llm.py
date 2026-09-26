@@ -14,7 +14,10 @@ from pydantic import BaseModel, Field
 
 from .parser import DEFAULT_DEADLINES, Finding, Report, stance_of
 
-MODEL = os.environ.get("CLAUDE_MODEL", "claude-opus-5")
+# Claude Opus 5.5: strong at faithful summarising and cheaper than Opus 5 ($4 / $20 per million tokens).
+MODEL = os.environ.get("CLAUDE_MODEL", "claude-opus-5-5")
+# Opus 5.5 always thinks; effort controls how much (and so cost and latency). Its default is "medium".
+EFFORT = os.environ.get("CLAUDE_EFFORT", "medium")
 
 SYSTEM = """You turn internal audit reports into scripts for 45-60 second vertical videos \
 (like YouTube Shorts) for busy executives who will not read the report.
@@ -56,13 +59,14 @@ def enabled() -> bool:
     return bool(os.environ.get("ANTHROPIC_API_KEY")) or os.environ.get("USE_LLM") == "1"
 
 
-def condense(report_text: str) -> Report:
+def condense(report_text: str, client=None) -> Report:
     import anthropic
 
-    client = anthropic.Anthropic()
+    client = client or anthropic.Anthropic()
     response = client.messages.parse(
         model=MODEL,
-        max_tokens=16000,
+        max_tokens=16000,  # covers thinking as well as the JSON reply
+        output_config={"effort": EFFORT},
         system=SYSTEM,
         messages=[{"role": "user", "content": f"<report>\n{report_text}\n</report>\n\nWrite the video copy for every finding."}],
         output_format=LLMReport,

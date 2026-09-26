@@ -20,6 +20,10 @@ def load_env(path: Path = ENV_FILE) -> None:
             continue
         key, value = line.split("=", 1)
         key = key.removeprefix("export ").strip()
-        value = value.strip().strip('"').strip("'")
+        value = value.strip()
+        if value[:1] in ('"', "'"):
+            value = value[1:].split(value[0], 1)[0]
+        else:
+            value = value.split(" #", 1)[0].strip()  # inline comment
         if key and value:
             os.environ.setdefault(key, value)

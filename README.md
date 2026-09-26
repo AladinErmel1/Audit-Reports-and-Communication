@@ -48,7 +48,7 @@ Removing the file in a later commit is not enough, because it stays in the git h
 
 | Variable | Effect |
 |---|---|
-| `ANTHROPIC_API_KEY` | Claude condenses each finding into plain-language copy (`app/llm.py`, model `claude-opus-5`, override with `CLAUDE_MODEL`). Without it a rule-based extractive summariser is used. If the Claude call fails, the app falls back to the rules. |
+| `ANTHROPIC_API_KEY` | Claude condenses each finding into plain-language copy (`app/llm.py`, model **Claude Opus 5.5** `claude-opus-5-5` at effort `medium`; override with `CLAUDE_MODEL` / `CLAUDE_EFFORT` = `low`, `medium`, `high`). Without it a rule-based extractive summariser is used. If the Claude call fails, the app falls back to the rules. |
 | `TTS_ENGINE` | `auto` (default: tries piper → edge → espeak), `piper`, `edge`, `espeak` or `silent` |
 | `PIPER_VOICE` | Path to a Piper `.onnx` voice for natural offline narration (`pip install piper-tts`) |
 | `EDGE_VOICE` | Microsoft neural voice for `edge-tts`, e.g. `en-US-AndrewNeural`, `en-GB-SoniaNeural`, `de-CH-LeniNeural` |
